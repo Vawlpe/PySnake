@@ -12,13 +12,17 @@ def main():
     surface = surface.convert()
 
     while 1:
-        clock.tick(10)
+        if G.GAME.objects["snake"].reset_speed_timer > 0:
+            G.GAME.objects["snake"].reset_speed_timer -= 1
+        else:
+            G.GAME.objects["snake"].speed = G.GAME.objects["snake"].reset_speed
+        clock.tick(G.GAME.objects["snake"].speed)
         G.GAME.update()
         G.GAME.draw(surface)
         screen.blit(surface, (0, 0))
         screen.blit(
             pygame.font.SysFont("helvetica", 24, True)
-            .render("Score: {0}".format(G.GAME.score), True, (0, 0, 0)),
+            .render("Score: {0}".format(G.GAME.objects["snake"].score), True, (0, 0, 0)),
             (5, 10)
         )
         pygame.display.update()

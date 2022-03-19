@@ -1,9 +1,9 @@
 import numpy
 import pygame
 
-import Food
 import GLOBALS as G
 import Game
+from Food import Food
 
 
 class Snake(object):
@@ -11,6 +11,10 @@ class Snake(object):
         self.length = 2
         self.positions = [((G.SCREEN_W / 2), (G.SCREEN_H / 2))]
         self.dir = G.DIRECTIONS[pygame.K_UP]
+        self.score = 0
+        self.speed = 10
+        self.reset_speed = 10
+        self.reset_speed_timer = 0
 
     def get_head(self):
         return self.positions[0]
@@ -25,17 +29,26 @@ class Snake(object):
         cur = self.get_head()
         x, y = self.dir
         new = (((cur[0] + (x * G.GRID_S)) % G.SCREEN_W), ((cur[1] + (y * G.GRID_S)) % G.SCREEN_H))
+
+        # Reset game
         if new in self.positions:
             G.GAME = Game.Game()
+
+        # Move tail
         self.positions.insert(0, new)
         if len(self.positions) > self.length:
             self.positions.pop()
 
     def eat(self):
-        if self.get_head() == G.GAME.objects["food"].pos:
-            self.length += 1
-            G.GAME.score += 10 if G.GAME.objects["food"].size == 1 else 100
-            G.GAME.objects["food"] = Food.Food()
+        # Filter game-objects
+        col = {
+            key: value for (key, value)
+            in G.GAME.objects.items()
+            if isinstance(value, Food)              # Must be food
+            and value.pos == self.get_head()        # Must overlap head
+        }
+        for c in col.values():
+            c.consume(consumer=self)                # Call consume method of every food collision found
 
     def update(self):
         self.move()

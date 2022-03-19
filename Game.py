@@ -1,9 +1,10 @@
 import pygame
-
-import Food
 import GLOBALS as G
 import sys
 
+import AppleFood
+import MelonFood
+import OrangeFood
 import Snake
 
 
@@ -11,9 +12,10 @@ class Game(object):
     def __init__(self):
         self.objects = {
             "snake": Snake.Snake(),
-            "food": Food.Food()
+            "apple": AppleFood.Apple(),
+            "orange": OrangeFood.Orange(),
+            "melon": MelonFood.Melon()
         }
-        self.score = 0
 
     def update(self):
         for event in pygame.event.get():
@@ -32,7 +34,8 @@ class Game(object):
         for k, v in self.objects.items():
             v.draw(surface)
 
-    def draw_grid(self, surface):
+    @staticmethod
+    def draw_grid(surface):
         for y in range(0, int(G.GRID_H)):
             for x in range(0, int(G.GRID_W)):
                 pygame.draw.rect(

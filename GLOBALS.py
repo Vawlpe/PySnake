@@ -20,8 +20,9 @@ COLORS = {
     "GridLight": (175, 140, 215),
     "GridDark": (115, 55, 175),
     "Snake": (0, 255, 0),
-    "SmallFruit": (255, 0, 0),
-    "BigFruit": (255, 170, 64)
+    "Apple": (255, 0, 0),
+    "Orange": (255, 170, 64),
+    "Melon": (0, 100, 0)
 }
 
 GAME = Game.Game()
