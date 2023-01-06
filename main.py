@@ -25,6 +25,16 @@ def main():
             .render("Score: {0}".format(G.GAME.objects["snake"].score), True, (0, 0, 0)),
             (5, 10)
         )
+        screen.blit(
+            pygame.font.SysFont("helvetica", 16, True)
+            .render("Press R to RESET", True, (0,0,0)),
+            (5, G.SCREEN_H - 32)
+        )
+        screen.blit(
+            pygame.font.SysFont("helvetica", 16, True)
+            .render("Press Q or ESC to QUIT", True, (0, 0, 0)),
+            (5, G.SCREEN_H - 16)
+        )
         pygame.display.update()
 
 

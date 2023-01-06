@@ -2,28 +2,34 @@ import pygame
 import GLOBALS as G
 import sys
 
-import AppleFood
-import MelonFood
-import OrangeFood
-import Snake
+from AppleFood import Apple
+from LemonFood import Lemon
+from OrangeFood import Orange
+from Snake import Snake
 
 
 class Game(object):
     def __init__(self):
-        self.objects = {
-            "snake": Snake.Snake(),
-            "apple": AppleFood.Apple(),
-            "orange": OrangeFood.Orange(),
-            "melon": MelonFood.Melon()
-        }
+        self.objects = {}
+        self.objects["snake"]  = Snake()
+        self.objects["apple"]  = Apple()
+        self.objects["orange"] = Orange()
+        self.objects["lemon"]  = Lemon()
 
     def update(self):
+        turnedThisFrame = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key in G.DIRECTIONS:
+                if event.key in [pygame.K_q, pygame.K_ESCAPE]:
+                    pygame.quit()
+                    sys.exit()
+                elif event.key == pygame.K_r:
+                    self.__class__.__init__(self)
+                elif event.key in G.DIRECTIONS and not turnedThisFrame:
+                    turnedThisFrame = True
                     self.objects["snake"].turn(G.DIRECTIONS[event.key])
 
         for k, v in self.objects.items():

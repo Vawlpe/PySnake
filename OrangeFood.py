@@ -11,7 +11,6 @@ class Orange(Food):
         self.StayTimer = 100
 
     def update(self):
-        print("Orange : {0}, {1}".format(self.NextTimer, self.StayTimer))
         if self.NextTimer > 0:
             self.NextTimer -= 1
         elif self.StayTimer > 0:
